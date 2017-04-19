@@ -1,0 +1,35 @@
+{
+  "width": 1280,
+  "height": 720,
+  "characters": [
+    {
+      "id": "v",
+      "fullname": "Vivi",
+      "imagedir": "images/vivi/",
+      "images": ["unsure.png"]
+    }
+  ],
+
+  "views": [
+    {
+      "id": "alloyU",
+      "url": "images/backgrounds/alloyU.jpg"
+    },
+    {
+      "id": "auditorium",
+      "url": "images/backgrounds/auditorium.jpg"
+    },
+    {
+      "id": "arch",
+      "url": "images/backgrounds/arch.jpg"
+    }
+  ],
+
+  "startScript": "test_script",
+  "scripts": [
+    {
+      "id": "test_script",
+      "url": "data/test_script.txt"
+    }
+  ]
+}
