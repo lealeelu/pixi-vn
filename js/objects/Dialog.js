@@ -1,7 +1,7 @@
 const PIXI = require('pixi.js');
 const WIDTH = 700;
 const HEIGHT = 200;
-
+const GSAP = require("gsap");
 
 module.exports = class Dialog {
   constructor (game) {
@@ -17,6 +17,7 @@ module.exports = class Dialog {
   }
 
   updateText(text) {
+      TweenLite.from(this.dialogbox, 0.15, {y: '+=50', autoAlpha: 0, ease: Power4.easeOut});
       this.dialogtext.innerHTML = text;
   }
 

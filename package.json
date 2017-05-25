@@ -1,6 +1,6 @@
 {
   "name": "pixitest",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A dramatic visual novel about a robot girl",
   "main": "index.js",
   "scripts": {
@@ -9,20 +9,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lealeelu/Rinku-Pixi"
+    "url": "git+https://github.com/lealeelu/pixi-vn"
   },
   "author": "lealeelu",
   "license": "MIT",
   "private": true,
   "bugs": {
-    "url": "https://github.com/lealeelu/Rinku-Pixi/issues"
+    "url": "https://github.com/lealeelu/pixi-vn/issues"
   },
-  "homepage": "https://github.com/lealeelu/Rinku-Pixi#readme",
+  "homepage": "https://github.com/lealeelu/pixi-vn#readme",
   "dependencies": {
+    "css-loader": "^0.28.2",
     "jquery": "^3.1.0",
-    "node-sass": "^4.5.2",
-    "pixi.js": "^4.5.1",
-    "pixi-display": "pixijs/pixi-display"
+    "node-sass": "^4.5.3",
+    "pixi-display": "github:pixijs/pixi-display",
+    "pixi.js": "^4.5.2",
+    "sass-loader": "^6.0.5"
   },
   "devDependencies": {
     "css-loader": "^0.28.0",
