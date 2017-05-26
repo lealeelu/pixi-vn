@@ -67,12 +67,21 @@ module.exports = class StageDirector{
             this.viewController.setBackground(command.text);
             this.advanceStory();
             break;
-          case "jump":
-          case "label":
+
+          case "hide":
+            this.characterController.hideCharacter(command.text);
             this.advanceStory();
             break;
 
           case "show":
+            this.characterController.showCharacter(command.text);
+            this.advanceStory();
+            break;
+
+          case "jump":
+
+          case "label":
+            this.advanceStory();
             break;
 
           case "dialog":
@@ -101,6 +110,9 @@ module.exports = class StageDirector{
                   command.portrait = command.character.isPortrait(param);
                   if (command.portrait) {
                     command.character.setPortrait(param);
+                    //if you're setting the character portrait,
+                    //I'm assuming you want it to show.
+                    command.character.show();
                     continue;
                   }
                 }

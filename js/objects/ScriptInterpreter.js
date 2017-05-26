@@ -9,7 +9,7 @@ When fed scriptdata, this interpreter should direct the flow of the story, handl
 const ScriptData = require ('./ScriptData');
 const Simple = require ('../util/Simple');
 
-const COMMANDS = ["view", "end", "label", "jump", "menu"];
+const COMMANDS = ["view", "end", "label", "jump", "menu", "show", "hide"];
 
 let instance = null;
 

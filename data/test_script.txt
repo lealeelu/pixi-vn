@@ -2,6 +2,12 @@ view: arch
 label: redo
 v left unsure: Where was I supposed to go again?
 v right: Oh darn it all!
-v: Where is he??
+Where is he??
 I'm not going to wait forever.
+hide: v
+I know, I'll hide from him.
+...
+...
+show: v
+Nevermind, I'm tired of sitting on the ground.
 jump: redo

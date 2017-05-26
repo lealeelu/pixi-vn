@@ -29,6 +29,18 @@ module.exports = class CharacterController {
     return instance;
   }
 
+  showCharacter(shortcode) {
+      let character = this.getCharacter(shortcode);
+      if (character) character.show();
+      else console.error("Can't show " + shortcode + ". Does character actually exist?");
+  }
+
+  hideCharacter(shortcode) {
+    let character = this.getCharacter(shortcode);
+    if (character) character.hide();
+    else console.error("Can't hide " + shortcode + ". Does character actually exist?");
+  }
+
   getCharacter(shortcode) {
     return this._characters.get(shortcode);
   }

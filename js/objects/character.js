@@ -13,7 +13,7 @@ module.exports = class Character{
 
     this._body = new PIXI.Sprite();
     this._body.displayGroup = this.displayGroup;
-    this.setPortrait(this.images[0]);
+    //this.setPortrait(this.images[0]);
     //positioning
     let scale = 0.76;
     //this._body.scale.set(scale, scale);
@@ -25,10 +25,16 @@ module.exports = class Character{
   }
 
   show() {
+    if (!this.showing) {
+      this._body.alpha = 1;
+    }
     this.showing = true;
   }
 
   hide() {
+    if (this.showing) {
+      this._body.alpha = 0;
+    }
     this.showing = false;
   }
 
