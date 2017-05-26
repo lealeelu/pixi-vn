@@ -53,7 +53,7 @@ module.exports = class ScriptInterpreter{
 
         switch (command.type) {
           case "jump":
-            this.jumpTo(command.text);
+            this.jumpTo(nextline.text);
             break;
           case "menu":
             break;
@@ -70,10 +70,10 @@ module.exports = class ScriptInterpreter{
     }
 
     jumpTo(labelname) {
-      for (let script in this._scripts) {
-        if (script.jumps().includes(labelname)) {
-          this.currentScript = script;
-          script.index = script.jumps().get(labelname);
+      for (let [key,value] of this._scripts) {
+        if (value.jumps.has(labelname)) {
+            this.currentScript = value;
+            value.index = value.jumps.get(labelname);
         }
       }
     }

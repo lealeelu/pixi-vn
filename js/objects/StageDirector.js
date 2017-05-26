@@ -77,6 +77,10 @@ module.exports = class StageDirector{
             this.viewController.setBackground(command.text);
             this.advanceStory();
             break;
+          case "jump":
+          case "label":
+            this.advanceStory();
+            break;
 
           case "show":
             break;

@@ -6,9 +6,9 @@ module.exports = class ScriptData {
   constructor (script) {
     this.lines = [];
     this._data = script;
-    this._parseData();
     this._index = 0;
     this._jumps = new Map();
+    this._parseData();
     console.log("script " + script.url + "loaded w/ " + this._scriptlines.length);
   }
 
