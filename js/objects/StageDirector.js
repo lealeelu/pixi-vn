@@ -51,16 +51,6 @@ module.exports = class StageDirector{
     }
 
     play() {
-      // TODO dynamicly...
-      //hey script interpreter, what's my line
-      //Are we changing the background?
-      //Are we changing the music?
-      //Are we changing any effects?
-      //how do I display the characters?
-      //Do I need a different dialog box?
-      //who is talking and what do they say?
-      //wait until everything is finished....
-      //repeat
 
       this.dialogController.loadDefaultDialog();
 
@@ -126,6 +116,12 @@ module.exports = class StageDirector{
           default:
             console.error('Unknown Command\n' + JSON.stringify(command));
         }
+        //TODO
+        //Are we changing the music?
+        //Are we changing any effects?
+        //Do I need a different dialog box?
+        //wait until everything is finished....
+
       }
 
       this.game.renderMe = true;

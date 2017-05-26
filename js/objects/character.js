@@ -11,6 +11,8 @@ module.exports = class Character{
     this.desaturated = false;
     this.images = options.images;
 
+    this._body = new PIXI.Sprite();
+    this._body.displayGroup = this.displayGroup;
     this.setPortrait(this.images[0]);
     //positioning
     let scale = 0.76;
@@ -49,7 +51,7 @@ module.exports = class Character{
   }
 
   setPortrait(portrait_name) {
-    this._body = PIXI.Sprite.fromImage( this.imagedir + portrait_name + '.png' );
-    this._body.displayGroup = this.displayGroup;
+    let texture = PIXI.Texture.fromImage(this.imagedir + portrait_name + '.png')
+    this._body.texture = texture;
   }
 }
