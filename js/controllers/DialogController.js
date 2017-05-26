@@ -13,13 +13,13 @@ module.exports = class DialogController {
     return instance;
   }
 
-  updateDialogText(linedata) {
-      if (linedata) {
-        if (linedata.parameters && linedata.parameters.character) {
-            this._dialogBox.updateName(linedata.parameters.character);
+  updateDialogText(command) {
+      if (command) {
+        if (command.character) {
+            this._dialogBox.updateName(command.character.fullname);
         }
-        if (linedata.text) {
-          this._dialogBox.updateText(linedata.text);
+        if (command.text) {
+          this._dialogBox.updateText(command.text);
         }
       }
   }

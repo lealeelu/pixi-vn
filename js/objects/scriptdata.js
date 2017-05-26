@@ -1,4 +1,5 @@
 const PIXI = require( 'pixi.js');
+const StageDirector = require('./StageDirector');
 
 module.exports = class ScriptData {
 
@@ -7,6 +8,7 @@ module.exports = class ScriptData {
     this._data = script;
     this._parseData();
     this._index = 0;
+    this._jumps = new Map();
     console.log("script " + script.url + "loaded w/ " + this._scriptlines.length);
   }
 
@@ -17,44 +19,27 @@ module.exports = class ScriptData {
       return line && !line.startsWith('--');
     });
 
-    for (let line of this._scriptlines) {
+    for (let i = 0; i < this._scriptlines.length; i++) {
+      let line = this._scriptlines[i];
       let linedata = {};
       let colonindex = line.indexOf(':');
       if (colonindex != -1) {
-        linedata.parameters = this._parseParameters(line.substring(0, colonindex));
+        linedata.params = line.substring(0, colonindex).split(' ');
         linedata.text = line.substring(colonindex+1, line.length).trim();
+        if (linedata.params.includes("label")) {
+          //store labelname and script line index
+          this._jumps.set(linedata.text, i);
+        }
       }
       else {
         linedata.text = line;
       }
-
       this.lines.push(linedata);
     }
   }
 
-  _parseParameters (paramstring) {
-    let params = {};
-    let paramchunks = paramstring.split(' ');
-
-    //TODO if it's a label statement, cache the possible jump destination
-
-    for (let param of paramchunks) {
-      param = param.toLowerCase();
-      if (param == "view"
-            || param == "end"
-            || param == "label"
-            || param == "jump"
-            || param == "menu") {
-        params.type = param;
-      }
-    }
-
-    if (!params.type) {
-      params.type = "dialog";
-      params.character = paramchunks[0];
-    }
-
-    return params;
+  get jumps() {
+    return this._jumps;
   }
 
   get index() {

@@ -9,11 +9,9 @@ module.exports = class Character{
     this.imagedir = options.imagedir;
     this.showing = false;
     this.desaturated = false;
+    this.images = options.images;
 
-
-    //TODO be able to set image by parameter
-    this._body = PIXI.Sprite.fromImage( this.imagedir + 'unsure.png' );
-    this._body.displayGroup = this.displayGroup;
+    this.setPortrait(this.images[0]);
     //positioning
     let scale = 0.76;
     //this._body.scale.set(scale, scale);
@@ -44,5 +42,14 @@ module.exports = class Character{
 
   centerOnLocation(location) {
     this._body.position.set(location.x, location.y);
+  }
+
+  isPortrait(portrait_name) {
+    return this.images.includes(portrait_name);
+  }
+
+  setPortrait(portrait_name) {
+    this._body = PIXI.Sprite.fromImage( this.imagedir + portrait_name + '.png' );
+    this._body.displayGroup = this.displayGroup;
   }
 }

@@ -1,20 +1,22 @@
 /*
-This director needs to control
+
+This uses the mediator design pattern.
+It is the only class that has knowledge of the various
+director it needs to control
 -characters
 -background
 -dialog
 -sound
 -effects
 
-by referencing the ScriptInterpreter's output
+It directs by following the ScriptInterpreter's output.
 
-so it must be tied to all of the controllers
 */
 
 const CharacterController = require( '../controllers/CharacterController');
 const DialogController = require('../controllers/DialogController');
 const ViewController = require('../controllers/ViewController');
-const ScriptData = require('../objects/ScriptData');
+const ScriptInterpreter = require('../objects/ScriptInterpreter');
 
 let instance = null;
 
@@ -27,14 +29,6 @@ module.exports = class StageDirector{
         this.dialogController = new DialogController(this.game);
         this.viewController = new ViewController(this.game);
 
-        this._scripts = new Map();
-        for (let script of this.game.config.scripts) {
-          this._scripts.set(script.id,
-            new ScriptData(this.game.assetloader.resources[script.url].data));
-        }
-        this.currentScript = this._scripts.get(this.game.config.startScript);
-        this.currentScript.index = -1;
-
         this._scenes = new Map();
 
         this.positions = new Map();
@@ -42,12 +36,15 @@ module.exports = class StageDirector{
         let gameheight = this.game.app.screen.height;
 
         let midheight = (gameheight/2) + 50;
-        this.positions.set('middle', {x: gamewidth/2, y: midheight});
-        this.positions.set('right', {x: gamewidth/4*3, y: midheight});
-        this.positions.set('offstage_right', {x: gamewidth/4*5, y: midheight});
+        this.positions.set('middle', {x: gamewidth/2, y: gameheight});
+        this.positions.set('right', {x: gamewidth/4*3, y: gameheight});
+        this.positions.set('offstage_right', {x: gamewidth/4*5, y: gameheight});
         this.positions.set('left', {x: gamewidth/4, y: gameheight});
-        this.positions.set('offstage_left', {x: -gamewidth/4, y: midheight});
+        this.positions.set('offstage_left', {x: -gamewidth/4, y: gameheight});
 
+        this.ScriptInterpreter = new ScriptInterpreter(
+          this.game.config.scripts, this.game.config.startScript,
+          this.game.assetloader);
         instance = this;
       }
       return instance;
@@ -66,36 +63,64 @@ module.exports = class StageDirector{
       //repeat
 
       this.dialogController.loadDefaultDialog();
-      this.characterController.getCharacter("v")
-        .centerOnLocation(this.positions.get("left"));
 
       this.advanceStory();
 
     }
 
     advanceStory() {
-      let linedata = this.currentScript.nextLine();
-      if (linedata) {
-        if (linedata.parameters.type == "view") {
-          this.viewController.setBackground(linedata.text);
-          this.advanceStory();
-        } else if (linedata.parameters.type == "show") {
+      let command = this.ScriptInterpreter.nextLine();
+      if (command) {
+        switch (command.type) {
 
-        }
-        else {
-          let character = this.characterController
-            .getCharacter(linedata.parameters.character.toLowerCase());
-          if (character) {
-            if (character.fullname) {
-              linedata.parameters.character = character.fullname;
+          case "view":
+            this.viewController.setBackground(command.text);
+            this.advanceStory();
+            break;
+
+          case "show":
+            break;
+
+          case "dialog":
+
+            if (command.params) {
+              //find out what the other parameters mean
+              for (let param of command.params) {
+
+                if (!command.character) {
+                  if (this.characterController.characterExists(param)) {
+                      command.character = this.characterController.getCharacter(param);
+                      this.characterController.setCurrentCharacter(param);
+                      continue;
+                  }
+                }
+
+                if (!command.location) {
+                  command.location = this.positions.get(param);
+                  if (command.location) {
+                    command.character.centerOnLocation(command.location);
+                    continue;
+                  }
+                }
+
+                if(!command.portrait) {
+                  command.portrait = command.character.isPortrait(param);
+                  if (command.portrait) {
+                    command.character.setPortrait(param);
+                    continue;
+                  }
+                }
+              }
             }
-            //handle character changes
-            character.activate();
-          } else {
-            console.error(`Character ${linedata.parameters.character} not found`);
-          }
-          this.dialogController.updateDialogText(linedata);
+            if (!command.character) {
+              command.character = this.characterController.CurrentCharacter;
+              if (!command.character) console.error("What character??");
+            }
+            this.dialogController.updateDialogText(command);
+            break;
 
+          default:
+            console.error('Unknown Command\n' + JSON.stringify(command));
         }
       }
 

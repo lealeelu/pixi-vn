@@ -47,7 +47,7 @@ module.exports = class Game {
     //load character sprites
     for (let character of this.config.characters) {
       for (let image of character.images) {
-        this.assetloader.add(character.imagedir + image);
+        this.assetloader.add(character.imagedir + image + '.png');
       }
     }
 

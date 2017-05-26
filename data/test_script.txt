@@ -1,2 +1,5 @@
 view: arch
-v: Hi there!
+v left unsure: Where was I supposed to go again?
+v right: Oh darn it all!
+v: Where is he??
+I'm not going to wait forever.

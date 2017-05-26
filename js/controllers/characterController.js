@@ -1,6 +1,8 @@
 const Character = require('../objects/character');
 const PIXI = require('pixi.js');
 const PIXIdisplay = require('pixi-display');
+const Simple = require ('../util/Simple');
+
 
 let instance = null;
 
@@ -12,6 +14,7 @@ module.exports = class CharacterController {
       this.stage = this.game.app.stage;
       this.displayGroup = new PIXI.DisplayGroup(1, true);
       this._characters = new Map();
+      this._currentCharacter = null;
 
       //load characters based off of config
       for (let character of this.game.config.characters) {
@@ -28,6 +31,22 @@ module.exports = class CharacterController {
 
   getCharacter(shortcode) {
     return this._characters.get(shortcode);
+  }
+
+  characterExists(shortcode) {
+      return this._characters.has(shortcode);
+  }
+
+  isCurrentCharacter(shortcode) {
+      return this._currentCharacter.shortcode = shortcode;
+  }
+
+  setCurrentCharacter(shortcode) {
+      this._currentCharacter = this.getCharacter(shortcode);
+  }
+
+  get CurrentCharacter() {
+    return this._currentCharacter;
   }
 
   listCharacters() {

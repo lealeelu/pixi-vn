@@ -7,17 +7,24 @@ When fed scriptdata, this interpreter should direct the flow of the story, handl
 */
 
 const ScriptData = require ('./ScriptData');
+const Simple = require ('../util/Simple');
+
+const COMMANDS = ["view", "end", "label", "jump", "menu"];
 
 let instance = null;
 
 module.exports = class ScriptInterpreter{
-    constructor() {
+  //TODO asset loader really shouldn't be referenced here.
+    constructor(scripts, startScript, assetloader) {
       if (!instance) {
         this._scripts = new Map();
-        //TODO load scripts in script directory
-        let filename = 'data/00_Intro_devvi.txt';
-        this.currentScript = new ScriptData(filename);
-        this._scripts.set(filename, this.currentScript);
+
+        for (let script of scripts) {
+          this._scripts.set(script.id,
+            new ScriptData(assetloader.resources[script.url].data));
+        }
+        this.currentScript = this._scripts.get(startScript);
+        this.currentScript.index = -1;
 
         instance = this;
       }
@@ -30,20 +37,31 @@ module.exports = class ScriptInterpreter{
 
     //returns linedata object
     nextLine() {
+      let command = {};
       let nextline = this.currentScript.nextLine();
-      //debugger;
-      //TODO remove all this and put it into stagedirector. Kind of useless.
-      //TODO what kind of command type?
-        //branching choice
-        //jump statement
-        //label statement - ignore, already cached in ScriptData.
-        //character statement
-        //view statement
-        //character movement
-        //effect statement'
-        //extended line
+      if (!nextline.params) {
+        //this is a continuation of the last line
+        //use the same settings
+        command.type = "dialog"
+      } else {
+        command.params = nextline.params;
+        // What type of command?
+        command.type = Simple.compare_return(nextline.params, COMMANDS);
+        if (!command.type) {
+          command.type = "dialog"
+        }
 
-      return nextline;
+        switch (command.type) {
+          case "jump":
+            this.jumpTo(command.text);
+            break;
+          case "menu":
+            break;
+        }
+      }
+      command.text = nextline.text;
+
+      return command;
     }
 
     //returns linedata object
@@ -51,4 +69,12 @@ module.exports = class ScriptInterpreter{
       return this.currentScript.currentLine();
     }
 
+    jumpTo(labelname) {
+      for (let script in this._scripts) {
+        if (script.jumps().includes(labelname)) {
+          this.currentScript = script;
+          script.index = script.jumps().get(labelname);
+        }
+      }
+    }
 }
