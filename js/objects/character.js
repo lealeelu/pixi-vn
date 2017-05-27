@@ -1,5 +1,5 @@
 import { Texture, Sprite } from 'pixi.js';
-import { TweenLite, Power2 } from 'gsap';
+import { TweenLite, Power1 } from 'gsap';
 
 export default class Character {
   constructor(stage, displayGroup, options) {
@@ -24,14 +24,14 @@ export default class Character {
 
   show() {
     if (!this.showing) {
-      this.body.alpha = 1;
+      TweenLite.to(this.body, 0.2, { alpha: 1 });
     }
     this.showing = true;
   }
 
   hide() {
     if (this.showing) {
-      this.body.alpha = 0;
+      TweenLite.to(this.body, 0.2, { alpha: 0 });
     }
     this.showing = false;
   }
@@ -47,8 +47,7 @@ export default class Character {
   }
 
   centerOnLocation(location) {
-    TweenLite.to(this.body, 0.3, { y: location.y, x: location.x });
-    // this.body.position.set(location.x, location.y);
+    TweenLite.to(this.body, 0.3, { y: location.y, x: location.x, ease: Power1.easeOut });
   }
 
   isPortrait(portraitName) {

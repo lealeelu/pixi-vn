@@ -1,7 +1,7 @@
 view: arch
 label: redo
-v offstage_left:
-v left unsure: Where was I supposed to go again?
+v offstage_left unsure:
+v left: Where was I supposed to go again?
 v right: Oh darn it all!
 Where is he??
 I'm not going to wait forever.
