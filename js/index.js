@@ -1,3 +1,3 @@
-const Game = require( './game' );
+import Game from './Game';
 
-game = new Game( document.getElementById("game-container") );
+const game = new Game(document.getElementById('game-container'));

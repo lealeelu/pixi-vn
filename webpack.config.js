@@ -1,26 +1,21 @@
-var path = require( 'path' );
 module.exports = {
-  entry: "./js/index.js",
+  entry: './js/index.js',
   output: {
-      filename: "./js/bundle.js"
+    filename: './js/bundle.js',
   },
   node: {
-		fs: 'empty'
-	},
-	module: {
-		loaders: [
-			{
-				test: /\.json$/,
-				include: [
-          path.join(__dirname, 'node_modules', 'pixi.js'),
-          path.join(__dirname, 'node_modules', 'ezgui/dist/EZGUI.js')
-        ],
-        loader: 'json',
-			},
+    fs: 'empty',
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
-      }
-		]
-	}
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
 };

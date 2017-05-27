@@ -20,15 +20,20 @@
   "homepage": "https://github.com/lealeelu/pixi-vn#readme",
   "dependencies": {
     "css-loader": "^0.28.2",
+    "gsap": "^1.19.1",
     "jquery": "^3.1.0",
     "node-sass": "^4.5.3",
-    "pixi-display": "github:pixijs/pixi-display",
+    "pixi-display": "1.1.1",
     "pixi.js": "^4.5.2",
     "sass-loader": "^6.0.5"
   },
   "devDependencies": {
     "css-loader": "^0.28.0",
-    "gsap": "^1.19.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
     "webpack": "^2.5.1",

@@ -2,17 +2,17 @@
 
 let instance = null;
 
-module.exports = class ChoiceMenu() {
-  constructor(element){
+export default class ChoiceMenu {
+  constructor(element) {
     if (!instance) {
-      this._element = element;
-      this._question = '';
-      this._answers = [];
+      this.element = element;
+      this.question = '';
+      this.answers = [];
       instance = this;
     }
 
-    //TODO handle questions
-    
+    // TODO handle questions
+
     return instance;
   }
 }

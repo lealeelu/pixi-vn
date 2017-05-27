@@ -1,12 +1,11 @@
-const PIXI = require('pixi.js');
-const Dialog = require('../objects/dialog');
+import Dialog from '../objects/Dialog';
 
 let instance = null;
 
-module.exports = class DialogController {
+export default class DialogController {
   constructor(game) {
     if (!instance) {
-      this._game = game;
+      this.game = game;
       instance = this;
     }
 
@@ -14,18 +13,17 @@ module.exports = class DialogController {
   }
 
   updateDialogText(command) {
-      if (command) {
-        if (command.character) {
-            this._dialogBox.updateName(command.character.fullname);
-        }
-        if (command.text) {
-          this._dialogBox.updateText(command.text);
-        }
+    if (command) {
+      if (command.character) {
+        this.dialogBox.updateName(command.character.fullname);
       }
+      if (command.text) {
+        this.dialogBox.updateText(command.text);
+      }
+    }
   }
 
   loadDefaultDialog() {
-    this._dialogBox = new Dialog(this._game);
+    this.dialogBox = new Dialog(this.game);
   }
-
 }
