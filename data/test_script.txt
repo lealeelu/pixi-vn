@@ -1,5 +1,6 @@
 view: arch
 label: redo
+v offstage_left:
 v left unsure: Where was I supposed to go again?
 v right: Oh darn it all!
 Where is he??

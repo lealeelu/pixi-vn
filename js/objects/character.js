@@ -1,4 +1,5 @@
 import { Texture, Sprite } from 'pixi.js';
+import { TweenLite, Power2 } from 'gsap';
 
 export default class Character {
   constructor(stage, displayGroup, options) {
@@ -46,7 +47,8 @@ export default class Character {
   }
 
   centerOnLocation(location) {
-    this.body.position.set(location.x, location.y);
+    TweenLite.to(this.body, 0.3, { y: location.y, x: location.x });
+    // this.body.position.set(location.x, location.y);
   }
 
   isPortrait(portraitName) {
