@@ -44,7 +44,7 @@ export default class ScriptInterpreter {
       command.params = nextline.params;
       // What type of command?
       command.type = Simple.firstIntersect(nextline.params, COMMANDS);
-      if (!command.type) {
+      if (command.type === -1) {
         command.type = 'dialog';
       }
 
