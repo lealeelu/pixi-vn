@@ -7,15 +7,13 @@ export default class ScriptData {
     this.index = 0;
     this.jumps = new Map();
     this.parseData();
-    console.log(`script ${script.url} loaded w/ ${this.scriptlines.length}`);
   }
 
   parseData() {
     this.scriptlines = this.data.split('\n');
     // easy way to remove blank and commented out lines.
-    this.scriptlines = this.scriptlines.filter(function (line) {
-      return line && !line.startsWith('--');
-    });
+    this.scriptlines = this.scriptlines.filter(line => line && !line.startsWith('--'));
+
 
     for (let i = 0; i < this.scriptlines.length; i += 1) {
       const line = this.scriptlines[i];
@@ -41,6 +39,10 @@ export default class ScriptData {
 
   getIndex() {
     return this.index;
+  }
+
+  setJump(labelname) {
+    this.index = this.jumps.get(labelname);
   }
 
   setIndex(index) {

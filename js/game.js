@@ -38,29 +38,30 @@ export default class Game {
 
     this.assetloader = new PIXI.loaders.Loader();
     // load character sprites
-    for (const character of this.config.characters) {
-      for (const image of character.images) {
+    this.config.characters.forEach((character) => {
+      character.images.forEach((image) => {
         this.assetloader.add(`${character.imagedir}${image}.png`);
-      }
-    }
+      });
+    });
 
     // load views
-    for (const view of this.config.views) {
+    this.config.views.forEach((view) => {
       this.assetloader.add(view.url);
-    }
+    });
 
     // load scripts
-    for (const script of this.config.scripts) {
+    this.config.scripts.forEach((script) => {
       this.assetloader.add({
         url: script.url,
         loadType: PIXI.loaders.Resource.LOAD_TYPE.XHR,
         xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.TEXT,
         isDataUrl: true });
-    }
+    });
 
     this.assetloader.load(this.loadComplete.bind(this))
-      .on('progress', function reportprogress() {
-        console.log(`load progress: ${this.progress}%`);
+      .on('progress', () => {
+        // this should be a loading screen
+        // console.log(`load progress: ${this.progress}%`);
       });
   }
 

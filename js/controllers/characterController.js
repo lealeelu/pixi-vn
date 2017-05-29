@@ -15,11 +15,11 @@ export default class CharacterController {
       this.currentCharacter = null;
 
       // load characters based off of config
-      for (const character of this.game.config.characters) {
+      this.game.config.characters.forEach((character) => {
         this.characters.set(
           character.id.toLowerCase(),
           new Character(this.stage, this.displayGroup, character));
-      }
+      });
 
       instance = this;
     }
@@ -30,13 +30,11 @@ export default class CharacterController {
   showCharacter(shortcode) {
     const character = this.getCharacter(shortcode);
     if (character) character.show();
-    else console.error(`Can't show ${shortcode}. Does character actually exist?`);
   }
 
   hideCharacter(shortcode) {
     const character = this.getCharacter(shortcode);
     if (character) character.hide();
-    else console.error(`Can't hide ${shortcode}. Does character actually exist?`);
   }
 
   getCharacter(shortcode) {
@@ -57,11 +55,5 @@ export default class CharacterController {
 
   get CurrentCharacter() {
     return this.currentCharacter;
-  }
-
-  listCharacters() {
-    for (const [key, value] of this.characters) {
-      console.log(`On stage: ${key} ${value}`);
-    }
   }
 }

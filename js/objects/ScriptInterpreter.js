@@ -19,10 +19,10 @@ export default class ScriptInterpreter {
     if (!instance) {
       this.scripts = new Map();
 
-    for(const script of scripts) {
-      this.scripts.set(script.id,
-          new ScriptData(assetloader.resources[script.url].data));
-    }
+      scripts.forEach((script) => {
+        this.scripts.set(script.id,
+        new ScriptData(assetloader.resources[script.url].data));
+      });
       this.currentScript = this.scripts.get(startScript);
       this.currentScript.index = -1;
 
@@ -43,7 +43,7 @@ export default class ScriptInterpreter {
     } else {
       command.params = nextline.params;
       // What type of command?
-      command.type = Simple.compareReturn(nextline.params, COMMANDS);
+      command.type = Simple.firstIntersect(nextline.params, COMMANDS);
       if (!command.type) {
         command.type = 'dialog';
       }
@@ -68,11 +68,11 @@ export default class ScriptInterpreter {
   }
 
   jumpTo(labelname) {
-    for (let [key, value] of this.scripts) {
-      if (value.jumps.has(labelname)) {
-        this.currentScript = value;
-        value.index = value.jumps.get(labelname);
+    this.scripts.forEach((script) => {
+      if (script.jumps.has(labelname)) {
+        this.currentScript = script;
+        script.setJump(labelname);
       }
-    }
+    });
   }
 }

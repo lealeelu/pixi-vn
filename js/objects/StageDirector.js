@@ -122,7 +122,7 @@ export default class StageDirector {
           break;
 
         default:
-          console.error(`Unknown Command\n ${JSON.stringify(command)}`);
+          break;
       }
         // TODO
         // Are we changing the music?
