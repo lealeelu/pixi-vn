@@ -1,11 +1,14 @@
 export default class Simple {
   // compares two arrays and returns the first intersection
-  static compareReturn(seta, setb) {
-    for (const a of seta) {
+  static firstIntersect(seta, setb) {
+    let match = -1;
+    seta.some((a) => {
       if (setb.includes(a)) {
-        return a;
+        match = a;
+        return true;
       }
-    }
-    return null;
+      return false;
+    });
+    return match;
   }
 }

@@ -19,10 +19,7 @@ export default class ViewController {
       this.game.app.stage.addChild(this.currentview);
 
       // cache backgrounds from config
-      for (const view of this.game.config.views) {
-        this.views.set(view.id, view.url);
-      }
-
+      this.game.config.views.forEach(view => this.views.set(view.id, view.url));
       instance = this;
     }
 
@@ -34,8 +31,6 @@ export default class ViewController {
     if (viewurl) {
       const texture = Texture.fromImage(viewurl);
       this.currentview.texture = texture;
-    } else {
-      console.error(`View ${viewid} not found`);
     }
   }
 

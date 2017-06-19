@@ -1,7 +1,9 @@
+const path = require('path');
+
 module.exports = {
-  entry: './js/index.js',
+  entry: path.resolve('./js/index.js'),
   output: {
-    filename: './js/bundle.js',
+    filename: './dist/bundle.js',
   },
   node: {
     fs: 'empty',
@@ -9,12 +11,21 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.jsx?$/,
+        exclude: /node-modules/,
+        loader: 'babel-loader',
+      },
+      {
         test: /\.json$/,
-        loader: 'json-loader',
+        use: 'json-loader',
       },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: ['svg-url-loader'],
       },
     ],
   },

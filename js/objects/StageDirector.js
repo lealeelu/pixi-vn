@@ -71,6 +71,7 @@ export default class StageDirector {
           break;
 
         case 'jump':
+          this.advanceStory();
           break;
 
         case 'label':
@@ -81,44 +82,47 @@ export default class StageDirector {
 
           if (command.params) {
             // find out what the other parameters mean
-            for (const param of command.params) {
+            command.params.forEach((param) => {
               if (!command.character) {
-                if (this.characterController.characterExists(param)) {
-                  command.character = this.characterController.getCharacter(param);
-                  this.characterController.setCurrentCharacter(param);
-                  continue;
-                }
+                command.character = this.characterController.getCharacter(param);
               }
 
               if (!command.location) {
                 command.location = this.positions.get(param);
-                if (command.location) {
-                  command.character.centerOnLocation(command.location);
-                  continue;
-                }
               }
 
-              if (!command.portrait) {
-                command.portrait = command.character.isPortrait(param);
-                if (command.portrait) {
-                  command.character.setPortrait(param);
-                  // if you're setting the character portrait,
-                  // I'm assuming you want it to show.
-                  command.character.show();
-                  continue;
-                }
+              if (!command.portrait
+                && command.character
+                && command.character.isPortrait(param)) {
+                command.portrait = param;
               }
+            });
+
+            if (command.character) {
+              this.characterController.setCurrentCharacter(command.character.shortcode);
+            } else {
+              command.character = this.characterController.CurrentCharacter;
+            }
+            if (command.location) {
+              command.character.centerOnLocation(command.location);
+            }
+            if (command.portrait) {
+              command.character.setPortrait(command.portrait);
+              // if you're setting the character portrait,
+              // I'm assuming you want it to show.
+              command.character.show();
             }
           }
-          if (!command.character) {
-            command.character = this.characterController.CurrentCharacter;
-            if (!command.character) console.error('What character??');
+          if (command.text) {
+            this.dialogController.updateDialogText(command);
+          } else {
+            // no text, probably just setting the portrait up
+            this.advanceStory();
           }
-          this.dialogController.updateDialogText(command);
           break;
 
         default:
-          console.error(`Unknown Command\n ${JSON.stringify(command)}`);
+          break;
       }
         // TODO
         // Are we changing the music?
