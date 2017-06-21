@@ -11,4 +11,16 @@ I know, I'll hide from him.
 ...
 show: v
 Nevermind, I'm tired of sitting on the ground.
+menu: Should I stick around still?
+option: Yes
+I guess I'll stay.
+jump: redo
+
+option: No
+I'm leaving!!
+
+end: The End
+
+menu: Start Over?
+option: Yes
 jump: redo

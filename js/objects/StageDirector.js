@@ -17,6 +17,7 @@ import CharacterController from '../controllers/CharacterController';
 import DialogController from '../controllers/DialogController';
 import ViewController from '../controllers/ViewController';
 import ScriptInterpreter from '../objects/ScriptInterpreter';
+import MenuController from '../controllers/MenuController';
 
 let instance = null;
 
@@ -27,6 +28,7 @@ export default class StageDirector {
       this.characterController = new CharacterController(this.game);
       this.dialogController = new DialogController(this.game);
       this.viewController = new ViewController(this.game);
+      this.menuController = new MenuController(this.game);
       this.scenes = new Map();
       this.positions = new Map();
       const gamewidth = this.game.app.screen.width;
@@ -78,47 +80,16 @@ export default class StageDirector {
           this.advanceStory();
           break;
 
+        case 'menu':
+          this.runMenu();
+          break;
+
+        case 'option':
+          this.advanceStory();
+          break;
+
         case 'dialog':
-
-          if (command.params) {
-            // find out what the other parameters mean
-            command.params.forEach((param) => {
-              if (!command.character) {
-                command.character = this.characterController.getCharacter(param);
-              }
-
-              if (!command.location) {
-                command.location = this.positions.get(param);
-              }
-
-              if (!command.portrait
-                && command.character
-                && command.character.isPortrait(param)) {
-                command.portrait = param;
-              }
-            });
-
-            if (command.character) {
-              this.characterController.setCurrentCharacter(command.character.shortcode);
-            } else {
-              command.character = this.characterController.CurrentCharacter;
-            }
-            if (command.location) {
-              command.character.centerOnLocation(command.location);
-            }
-            if (command.portrait) {
-              command.character.setPortrait(command.portrait);
-              // if you're setting the character portrait,
-              // I'm assuming you want it to show.
-              command.character.show();
-            }
-          }
-          if (command.text) {
-            this.dialogController.updateDialogText(command);
-          } else {
-            // no text, probably just setting the portrait up
-            this.advanceStory();
-          }
+          this.runDialog(command);
           break;
 
         default:
@@ -132,6 +103,54 @@ export default class StageDirector {
     }
 
     this.game.renderMe = true;
+  }
+
+  runMenu() {
+    const menuData = this.ScriptInterpreter.getMenuData();
+    this.menuController.execute(menuData);
+  }
+
+  runDialog(command) {
+    const dialogCommand = command;
+    if (dialogCommand.params) {
+      // find out what the other parameters mean
+      dialogCommand.params.forEach((param) => {
+        if (!dialogCommand.character) {
+          dialogCommand.character = this.characterController.getCharacter(param);
+        }
+
+        if (!dialogCommand.location) {
+          dialogCommand.location = this.positions.get(param);
+        }
+
+        if (!dialogCommand.portrait
+          && dialogCommand.character
+          && dialogCommand.character.isPortrait(param)) {
+          dialogCommand.portrait = param;
+        }
+      });
+
+      if (dialogCommand.character) {
+        this.characterController.setCurrentCharacter(dialogCommand.character.shortcode);
+      } else {
+        dialogCommand.character = this.characterController.CurrentCharacter;
+      }
+      if (dialogCommand.location) {
+        dialogCommand.character.centerOnLocation(dialogCommand.location);
+      }
+      if (dialogCommand.portrait) {
+        dialogCommand.character.setPortrait(dialogCommand.portrait);
+        // if you're setting the character portrait,
+        // I'm assuming you want it to show.
+        dialogCommand.character.show();
+      }
+    }
+    if (dialogCommand.text) {
+      this.dialogController.updateDialogText(dialogCommand);
+    } else {
+      // no text, probably just setting the portrait up
+      this.advanceStory();
+    }
   }
 
 }
