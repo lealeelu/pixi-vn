@@ -6,6 +6,7 @@ export default class ScriptData {
     this.data = script;
     this.index = 0;
     this.jumps = new Map();
+    this.menus = new Map();
     this.parseData();
   }
 
@@ -13,7 +14,8 @@ export default class ScriptData {
     this.scriptlines = this.data.split('\n');
     // easy way to remove blank and commented out lines.
     this.scriptlines = this.scriptlines.filter(line => line && !line.startsWith('--'));
-
+    let menuIndex = -1;
+    let menuData = null;
 
     for (let i = 0; i < this.scriptlines.length; i += 1) {
       const line = this.scriptlines[i];
@@ -25,9 +27,23 @@ export default class ScriptData {
         if (linedata.params.includes('label')) {
           // store labelname and script line index
           this.jumps.set(linedata.text, i);
+        } else if (linedata.params.includes('menu')) {
+          // if this isn't the first menu item of the script...
+          if (menuIndex !== -1) {
+            this.menus.set(menuIndex, menuData); // base case
+          }
+          // reset or create for the first time
+          menuIndex = i;
+          menuData = { options: [] };
+          menuData.question = linedata.text;
+        } else if (linedata.params.includes('option')) {
+          menuData.options.push({ index: i, text: linedata.text });
         }
       } else {
         linedata.text = line;
+      }
+      if (menuData && !this.menus.has(menuIndex)) {
+        this.menus.set(menuIndex, menuData);
       }
       this.lines.push(linedata);
     }
@@ -37,16 +53,20 @@ export default class ScriptData {
     return this.jumps;
   }
 
+  getMenuData() {
+    return this.menus.get(this.index);
+  }
+
   getIndex() {
     return this.index;
   }
 
-  setJump(labelname) {
-    this.index = this.jumps.get(labelname);
-  }
-
   setIndex(index) {
     this.index = index;
+  }
+
+  jumpTo(labelname) {
+    this.index = this.jumps.get(labelname);
   }
 
   nextLine() {

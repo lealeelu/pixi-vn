@@ -16,8 +16,22 @@ export default class Dialog {
   }
 
   updateText(text) {
-    TweenLite.from(this.dialogbox, 0.15, { y: '+=50', autoAlpha: 0, ease: Power4.easeOut });
     this.dialogtext.innerHTML = text;
+    this.show();
+  }
+
+  show() {
+    TweenLite.from(this.dialogbox, 0.15, { y: '+=50', autoAlpha: 0, ease: Power4.easeOut });
+    if (this.dialogbox.classList.contains('hidden')) {
+      this.dialogbox.classList.remove('hidden');
+    }
+  }
+
+  hide() {
+    TweenLite.from(this.dialogbox, 0.15, { y: '+=50', autoAlpha: 1, ease: Power4.easeOut });
+    if (!this.dialogbox.classList.contains('hidden')) {
+      this.dialogbox.classList.add('hidden');
+    }
   }
 
   centerOnLocation(x, y) {

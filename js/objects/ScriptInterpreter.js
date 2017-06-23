@@ -6,10 +6,10 @@ When fed scriptdata, this interpreter should direct the flow of the story, handl
 
 */
 
-import ScriptData from './ScriptData';
 import Simple from '../util/Simple';
+import ScriptData from './ScriptData';
 
-const COMMANDS = ['view', 'end', 'label', 'jump', 'menu', 'show', 'hide'];
+const COMMANDS = ['view', 'end', 'label', 'jump', 'menu', 'option', 'show', 'hide'];
 
 let instance = null;
 
@@ -52,8 +52,6 @@ export default class ScriptInterpreter {
         case 'jump':
           this.jumpTo(nextline.text);
           break;
-        case 'menu':
-          break;
         default:
           break;
       }
@@ -67,12 +65,20 @@ export default class ScriptInterpreter {
     return this.currentScript.currentLine();
   }
 
+  getMenuData() {
+    return this.currentScript.getMenuData();
+  }
+
   jumpTo(labelname) {
     this.scripts.forEach((script) => {
       if (script.jumps.has(labelname)) {
         this.currentScript = script;
-        script.setJump(labelname);
+        script.jumpTo(labelname);
       }
     });
+  }
+
+  jumpToIndex(index) {
+    this.currentScript.setIndex(index);
   }
 }

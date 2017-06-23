@@ -26,6 +26,8 @@ export default class Game {
     this.config = config;
     this.assetloader = null;
 
+    this.stageDirector = null;
+
     this.loadFromConfig();
   }
 
