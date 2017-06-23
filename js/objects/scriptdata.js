@@ -36,11 +36,14 @@ export default class ScriptData {
           menuIndex = i;
           menuData = { options: [] };
           menuData.question = linedata.text;
-        } else if (linedata.params.includes('options')) {
+        } else if (linedata.params.includes('option')) {
           menuData.options.push({ index: i, text: linedata.text });
         }
       } else {
         linedata.text = line;
+      }
+      if (menuData && !this.menus.has(menuIndex)) {
+        this.menus.set(menuIndex, menuData);
       }
       this.lines.push(linedata);
     }

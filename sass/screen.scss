@@ -1,3 +1,79 @@
+//Variables
+$pink-60: rgba(187, 170, 187, 0.6);
+$pink-80: rgba(187, 170, 187, 0.8);
+$pink-100: rgba(187, 170, 187, 1);
+$bluegreen: #002934;
+$lightpurple: rgb(193, 193, 255);
+$mutedblue: #353c57;
+
+@import url('https://fonts.googleapis.com/css?family=Kalam:400,700');
+
+.centered-box {
+	margin: auto;
+  position: absolute;
+	left:0;
+	right: 0;
+}
+
+.pink-box {
+	background-color: $pink-80;
+	border-style: solid;
+	border-width: 6px;
+	border-radius: 20px;
+	border-color: #f9f9f9;
+}
+
+.underline {
+	border-bottom: 3px solid white;
+}
+
+.shadow {
+	text-shadow: 0px 0px 3px $lightpurple;
+}
+
+.castellar {
+    color: #FFFFFF;
+    text-shadow: -1px 0 0 #000000, 1px 1px 0 #000000,
+             2px -1px 0 #000000, 3px 0 0 #000000;
+}
+
+.outline {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 0 #000000, -1px 1px 0 #000000,
+             1px -1px 0 #000000, -1px -1px 0 #000000;
+}
+
+.headertext {
+	@extend .shadow;
+	@extend .castellar;
+	color: #fff;
+	margin: 0;
+	padding: 5px 0 0 20px;
+	font-size: 30px;
+	font-weight: 700;
+	letter-spacing: 3px;
+}
+
+.mediumtext {
+	@extend .shadow;
+	color: $bluegreen;
+	font-size: 25px;
+	font-weight: 600;
+	margin: 10px 10px 10px 15px;
+}
+
+.smalltext {
+	@extend .shadow;
+	color: $bluegreen;
+	font-size: 20px;
+	font-weight: 600;
+	margin: 15px 15px 15px 20px;
+}
+
+.hidden {
+	display: none;
+}
+
 //Mixins
 @mixin text-outline($width, $color) {
 	  text-shadow:
@@ -12,26 +88,7 @@ body{
 	background: #12121f;
 	margin: 0;
 	padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.nametext {
-	color: black;
-	margin: 0;
-	padding: 10px;
-	padding-left: 20px;
-	font-size: 25px;
-	border-bottom: 3px solid white;
-	background-color: rgba(187, 170, 187, 0.8);
-	text-shadow: 3px 2px rgba(187, 170, 187, 0.6);
-}
-
-.dialogtext {
-	color: black;
-	font-size: 20px;
-	font-weight: 500;
-	margin: 15px 15px 15px 20px;
-	;
+	font-family: 'Kalam', cursive;
 }
 
 #game-container {
@@ -58,26 +115,58 @@ body{
 
 /* UI */
 div.dialogbox {
+	@extend .pink-box;
 	height:200px;
 	width: 700px;
-	margin: auto;
-  position: absolute;
-	left:0;
-	right: 0;
 	bottom: 0;
-
-  background-color: rgba(187, 170, 187, 0.6);
-	border-style: solid;
-	border-width: 10px;
-	//-webkit-border-radius: 16px 16px 40px 40px;
-	//-moz-border-radius: 16px 16px 40px 40px;
-	border-radius: 20px;
-	border-color: #f9f9f9;
 	overflow: hidden;
+	h3 {
+		@extend .headertext;
+		@extend .underline;
+	}
 }
 
 div.inner-dialog-box {
 	//border-radius: 4px;
+}
+
+.nametext {
+	@extend .headertext;
+	@extend .underline;
+	background-color: $mutedblue;
+
+}
+
+.dialogtext {
+	@extend .smalltext;
+}
+
+// menu
+.menu {
+	h3 {
+		@extend .headertext;
+	}
+	h5 {
+		@extend .mediumtext;
+	}
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 70%;
+	height: auto;
+}
+
+.menu-question {
+	background-color: $mutedblue;
+}
+
+.menu-option{
+	@extend .pink-box;
+	//padding: 10px;
+	margin: auto;
+	width: 80%;
+	margin-top: 10px;
+
 }
 
 /* Util */
