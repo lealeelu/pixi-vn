@@ -1,3 +1,4 @@
+
 export default class Simple {
   // compares two arrays and returns the first intersection
   static firstIntersect(seta, setb) {
