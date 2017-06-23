@@ -1,10 +1,14 @@
+label: restart
 view: arch
 v offstage_left unsure:
 v left: Where was I supposed to go again?
 
-menu: Should I stick around still?
+menu: Should I stick around?
 option: Yes
 I guess I'll stay.
 
 option: No
 I'm leaving!!
+
+What now?
+jump: restart

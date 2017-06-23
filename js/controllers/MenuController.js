@@ -10,6 +10,7 @@ export default class MenuController {
       const originalMenuOptionElement = game.element.getElementsByClassName('menu-option')[0];
       this.menuOptionElement = originalMenuOptionElement.cloneNode();
       this.menuElement.removeChild(originalMenuOptionElement);
+      this.game = game;
       instance = this;
     }
 
@@ -20,10 +21,26 @@ export default class MenuController {
     this.question.innerHTML = menuData.question;
     menuData.options.forEach((option) => {
       const opel = this.menuOptionElement.cloneNode();
+      opel.setAttribute('data', option.index);
       opel.innerHTML = `<h5>${option.text}</h5>`;
+      opel.addEventListener('click', this.optionSelect.bind(this));
       this.menuElement.appendChild(opel);
     });
     this.show();
+  }
+
+  optionSelect(event) {
+    if (!this.stageDirector) {
+      this.stageDirector = this.game.stageDirector;
+    }
+    this.hide();
+    // delete all options
+    const oldOptions = this.menuElement.getElementsByClassName('menu-option');
+    for (let i = 0; i < oldOptions.length;) {
+      this.menuElement.removeChild(oldOptions[i]);
+    }
+    const optionIndex = parseInt(event.currentTarget.getAttribute('data'), 10);
+    this.stageDirector.runMenuOption(optionIndex);
   }
 
   show() {

@@ -16,7 +16,7 @@ It directs by following the ScriptInterpreter's output.
 import CharacterController from '../controllers/CharacterController';
 import DialogController from '../controllers/DialogController';
 import ViewController from '../controllers/ViewController';
-import ScriptInterpreter from '../objects/ScriptInterpreter';
+import ScriptInterpreter from './ScriptInterpreter';
 import MenuController from '../controllers/MenuController';
 
 let instance = null;
@@ -108,6 +108,11 @@ export default class StageDirector {
   runMenu() {
     const menuData = this.ScriptInterpreter.getMenuData();
     this.menuController.execute(menuData);
+  }
+
+  runMenuOption(optionIndex) {
+    this.ScriptInterpreter.jumpToIndex(optionIndex);
+    // this.advanceStory();
   }
 
   runDialog(command) {

@@ -77,4 +77,8 @@ export default class ScriptInterpreter {
       }
     });
   }
+
+  jumpToIndex(index) {
+    this.currentScript.setIndex(index);
+  }
 }
