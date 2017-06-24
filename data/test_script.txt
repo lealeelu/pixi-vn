@@ -6,9 +6,10 @@ v left: Where was I supposed to go again?
 menu: Should I stick around?
 option: Yes
 I guess I'll stay.
+jump: restart
 
 option: No
 I'm leaving!!
+What now though?
 
-What now?
 jump: restart
