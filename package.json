@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --progress --colors --host 0.0.0.0",
-    "test": "mocha --require babel-register"
+    "test": "mocha \"test/**/*.test.js\" --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -49,6 +49,9 @@
   "babel": {
     "presets": [
       "latest"
+    ],
+    "ignore": [
+      "*.txt"
     ]
   }
 }

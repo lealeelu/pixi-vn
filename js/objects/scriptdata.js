@@ -3,15 +3,14 @@ export default class ScriptData {
 
   constructor(script) {
     this.lines = [];
-    this.data = script;
     this.index = 0;
     this.jumps = new Map();
     this.menus = new Map();
-    this.parseData();
+    this.parseData(script);
   }
 
-  parseData() {
-    this.scriptlines = this.data.split('\n');
+  parseData(script) {
+    this.scriptlines = script.split('\n');
     // easy way to remove blank and commented out lines.
     this.scriptlines = this.scriptlines.filter(line => line && !line.startsWith('--'));
     let menuIndex = -1;

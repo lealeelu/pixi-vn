@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import assert from 'assert';
-import simple from '../js/util/Simple';
+import simple from '../../../js/util/Simple';
 
 describe('Simple', () => {
   describe('#firstIntersect()', () => {
