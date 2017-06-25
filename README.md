@@ -1,4 +1,4 @@
-# Pixi-VN
+# Pixi-VN [![Build Status](https://travis-ci.org/lealeelu/pixi-vn.svg?branch=master)](https://travis-ci.org/lealeelu/pixi-vn)
 Visual Novel Engine written using [pixi.js](http://www.pixijs.com/), [ES6](http://es6-features.org) and [nodejs](https://nodejs.org/).
 
 ## Installation Instructions
