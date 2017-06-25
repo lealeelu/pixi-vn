@@ -18,8 +18,6 @@ export default class Game {
 
     this.overlay = document.getElementById('game-overlay');
 
-    this.element.addEventListener('click', this.onMouseDown.bind(this));
-
     this.lastFrameTime = 0;
     this.renderMe = false;
 
@@ -74,7 +72,4 @@ export default class Game {
     this.app.ticker.start();
   }
 
-  onMouseDown() {
-    this.stageDirector.advanceStory();
-  }
 }

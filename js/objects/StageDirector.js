@@ -8,7 +8,7 @@ director it needs to control
 -dialog
 -sound
 -effects
-
+-menus
 It directs by following the ScriptInterpreter's output.
 
 */
@@ -20,11 +20,18 @@ import ScriptInterpreter from './ScriptInterpreter';
 import MenuController from '../controllers/MenuController';
 
 let instance = null;
+const STATE = {
+  stop: 'stop',
+  play: 'play',
+  pause: 'pause',
+  menu: 'menu',
+};
 
 export default class StageDirector {
   constructor(game) {
     if (!instance) {
       this.game = game;
+      this.state = STATE.stop;
       this.characterController = new CharacterController(this.game);
       this.dialogController = new DialogController(this.game);
       this.viewController = new ViewController(this.game);
@@ -43,6 +50,7 @@ export default class StageDirector {
       this.ScriptInterpreter = new ScriptInterpreter(
         this.game.config.scripts, this.game.config.startScript,
         this.game.assetloader);
+      this.onMouseDownEvent = this.onMouseDown.bind(this);
       instance = this;
     }
     return instance;
@@ -50,6 +58,7 @@ export default class StageDirector {
 
   play() {
     this.dialogController.loadDefaultDialog();
+    this.changeState(STATE.play);
     this.advanceStory();
   }
 
@@ -107,12 +116,13 @@ export default class StageDirector {
 
   runMenu() {
     const menuData = this.ScriptInterpreter.getMenuData();
+    this.changeState(STATE.menu);
     this.menuController.execute(menuData);
   }
 
   runMenuOption(optionIndex) {
+    this.changeState(STATE.play);
     this.ScriptInterpreter.jumpToIndex(optionIndex);
-    // this.advanceStory();
   }
 
   runDialog(command) {
@@ -158,4 +168,34 @@ export default class StageDirector {
     }
   }
 
+  changeState(state) {
+    switch (state) {
+      case STATE.play:
+        this.clicksOn();
+        break;
+      case STATE.stop:
+        this.clicksOff();
+        break;
+      case STATE.menu:
+        this.clicksOff();
+        break;
+      case STATE.pause:
+        this.clicksOff();
+        break;
+      default:
+    }
+    this.state = state;
+  }
+
+  clicksOn() {
+    this.game.element.addEventListener('click', this.onMouseDownEvent);
+  }
+
+  clicksOff() {
+    this.game.element.removeEventListener('click', this.onMouseDownEvent, false);
+  }
+
+  onMouseDown() {
+    this.advanceStory();
+  }
 }
