@@ -17,6 +17,7 @@ Visual Novel Engine written using [pixi.js](http://www.pixijs.com/), [ES6](http:
   Set the startScript in config.json to tell the system what script to start from. From there, it will go in order of the listed scripts.
 
 ## Contributing
+ - Read through the [Contributer's Code of Conduct](http://github.com/lealeelu/pixi-vn/blob/master/CODE_OF_CONDUCT.md).
  - Bugs - if you see a bug and want to report it, add it to the github issues list, preferably with screenshots and a thurough description of the problem, then tag it as a bug.
  - Feature Requests - Want a feature or want to start working on a feature? Write an issue and tag it as a feature request. People can vote on that feature and give me more of a reason to work on it.
  - Now that you've written an issue, feel free to take up the mantle by forking the repo, adding your changes and submitting a pull request, you awesome person you!
