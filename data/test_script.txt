@@ -1,15 +1,32 @@
+
+v offstage_left unsure:
 label: restart
 view: arch
-v offstage_left unsure:
+Darn!
 v left: Where was I supposed to go again?
-
-menu: Should I stick around?
-option: Yes
+I'm pretty sure I was supposed to go to the park...
+...but she isn't here yet.
+menu: Should I stick around or go somewhere else?
+option: I should stick around
 I guess I'll stay.
+But what should I do in the meantime?
+d offstage_right normal:
+d right: Hi Vivi! Sorry to keep you waiting.
+v: Devvi! Where were you?
+d: Sorry I got held up. I was in another game for a while.
+but I'm here now!
+v: I'm happy you could make it.
+I have something important to tell you.
+Come with me.
+v offstage_left:
+d: Where are we going?
+d offstage_left:
+v hide:
+d hide:
 jump: restart
 
-option: No
+option: I've waited too long
 I'm leaving!!
-What now though?
+But where do I go?
 
 jump: restart

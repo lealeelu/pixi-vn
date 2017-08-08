@@ -7,6 +7,12 @@
       "fullname": "Vivi",
       "imagedir": "images/vivi/",
       "images": ["unsure"]
+    },
+    {
+      "id": "d",
+      "fullname": "Devvi",
+      "imagedir": "images/devvi/",
+      "images": ["normal"]
     }
   ],
 
