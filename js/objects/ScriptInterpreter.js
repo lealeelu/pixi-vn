@@ -1,84 +1,79 @@
-/*
-When fed scriptdata, this interpreter should direct the flow of the story, handling...
-- menu choices
-- jumps
-- variables
 
-*/
-
+import Interpreter from './Interpreter';
 import Simple from '../util/Simple';
-import ScriptData from './ScriptData';
 
-const COMMANDS = ['view', 'end', 'label', 'jump', 'menu', 'option', 'show', 'hide'];
+export default class ScriptInterpreter extends Interpreter{
+  constructor(scripts) {
+    super();
+    this.jumps = new Map();
+    this.menus = new Map();
+    let scriptpack = '';
+    scripts.forEach((script) => {
+      scriptpack = scriptpack + assetloader.resources[script].data;
+    });
+    this.parseScript(scriptpack);
+  }
 
-let instance = null;
+  parseScript(script) {
+    let scriptlines = script.split('\n');
+    // easy way to remove blank and commented out lines.
+    scriptlines = this.scriptlines.filter(line => line && !line.startsWith('--'));
+    let menuIndex = -1;
+    let menuData = null;
 
-export default class ScriptInterpreter {
-    // TODO asset loader really shouldn't be referenced here.
-  constructor(scripts, startScript, assetloader) {
-    if (!instance) {
-      this.scripts = new Map();
-
-      scripts.forEach((script) => {
-        this.scripts.set(script.id,
-        new ScriptData(assetloader.resources[script.url].data));
-      });
-      this.currentScript = this.scripts.get(startScript);
-      this.currentScript.index = -1;
-
-      instance = this;
+    for (let i = 0; i < scriptlines.length; i += 1) {
+      const line = this.scriptlines[i];
+      const linedata = this.parseLine(line);
+      if (linedata.params) {
+        if (linedata.params.includes('label')) {
+          // store labelname and script line index
+          this.jumps.set(linedata.text, i);
+        } else if (linedata.params.includes('menu')) {
+          // if this isn't the first menu item of the script...
+          if (menuIndex !== -1) {
+            this.menus.set(menuIndex, menuData); // base case
+          }
+          // reset or create for the first time
+          menuIndex = i;
+          menuData = { options: [] };
+          menuData.question = linedata.text;
+        } else if (linedata.params.includes('option')) {
+          menuData.options.push({ index: i, text: linedata.text });
+        }
+      }
+      if (menuData && !this.menus.has(menuIndex)) {
+        this.menus.set(menuIndex, menuData);
+      }
+      this.linedatum.push(linedata);
     }
-
-    return instance;
   }
 
   // returns linedata object
   nextLine() {
-    const command = {};
-    const nextline = this.currentScript.nextLine();
-    if (!nextline.params) {
-      // this is a continuation of the last line
-      // use the same settings
-      command.type = 'dialog';
-    } else {
-      command.params = nextline.params;
-      // What type of command?
-      command.type = Simple.firstIntersect(nextline.params, COMMANDS);
-      if (command.type === -1) {
-        command.type = 'dialog';
-      }
+    this.index += 1;
+    const linedata = this.currentLine();
 
-      switch (command.type) {
+    switch (linedata.type) {
         case 'jump':
           this.jumpTo(nextline.text);
           break;
         default:
           break;
-      }
     }
-    command.text = nextline.text;
 
-    return command;
-  }
-
-  currentLine() {
-    return this.currentScript.currentLine();
-  }
-
-  getMenuData() {
-    return this.currentScript.getMenuData();
-  }
-
-  jumpTo(labelname) {
-    this.scripts.forEach((script) => {
-      if (script.jumps.has(labelname)) {
-        this.currentScript = script;
-        script.jumpTo(labelname);
-      }
-    });
+    return linedata;
   }
 
   jumpToIndex(index) {
-    this.currentScript.setIndex(index);
+    this.setIndex(index);
   }
+
+  getMenuData() {
+    return this.menus.get(this.index);
+  }
+
+  jumpTo(labelname) {
+    this.index = this.jumps.get(labelname);
+  }
+
 }

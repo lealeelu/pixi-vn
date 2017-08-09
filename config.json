@@ -31,11 +31,5 @@
     }
   ],
 
-  "startScript": "test_script",
-  "scripts": [
-    {
-      "id": "test_script",
-      "url": "data/test_script.txt"
-    }
-  ]
+  "scripts": ["data/test_script.txt"]
 }
