@@ -7,6 +7,12 @@
       "fullname": "Vivi",
       "imagedir": "images/vivi/",
       "images": ["unsure"]
+    },
+    {
+      "id": "d",
+      "fullname": "Devvi",
+      "imagedir": "images/devvi/",
+      "images": ["normal"]
     }
   ],
 
@@ -25,11 +31,5 @@
     }
   ],
 
-  "startScript": "test_script",
-  "scripts": [
-    {
-      "id": "test_script",
-      "url": "data/test_script.txt"
-    }
-  ]
+  "scripts": ["data/test_script.txt"]
 }

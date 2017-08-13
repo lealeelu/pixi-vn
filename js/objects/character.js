@@ -47,7 +47,11 @@ export default class Character {
   }
 
   centerOnLocation(location) {
-    TweenLite.to(this.body, 0.3, { y: location.y, x: location.x, ease: Power1.easeOut });
+    if (this.showing) {
+      TweenLite.to(this.body, 0.3, { y: location.y, x: location.x, ease: Power1.easeOut });
+    } else {
+      this.body.position.set(location.x, location.y);
+    }
   }
 
   isPortrait(portraitName) {
