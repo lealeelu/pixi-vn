@@ -52,7 +52,7 @@ export default class Game {
     // load scripts
     this.config.scripts.forEach((script) => {
       this.assetloader.add({
-        url: script.url,
+        url: script,
         loadType: PIXI.loaders.Resource.LOAD_TYPE.XHR,
         xhrType: PIXI.loaders.Resource.XHR_RESPONSE_TYPE.TEXT,
         isDataUrl: true });
@@ -67,8 +67,8 @@ export default class Game {
 
   loadComplete() {
     this.stageDirector = new StageDirector(this);
+    this.stageDirector.setup()
     this.stageDirector.play();
-
     this.app.ticker.start();
   }
 
