@@ -51,7 +51,7 @@ export default class StageDirector {
       this.interpreter = new ScriptInterpreter();
       let scriptpack = '';
       this.game.config.scripts.forEach((script) => {
-        scriptpack = scriptpack + this.game.assetloader.resources[script].data;
+        scriptpack += this.game.assetloader.resources[script].data;
       });
       this.interpreter.parseScript(scriptpack);
 
@@ -125,7 +125,6 @@ export default class StageDirector {
   }
 
   runMenu() {
-
     const menuData = this.interpreter.getMenuData();
     this.changeState(STATE.menu);
     this.menuController.execute(menuData);

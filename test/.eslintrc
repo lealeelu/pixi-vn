@@ -3,6 +3,8 @@
     "mocha"
   ],
   "rules": {
-    "mocha/no-exclusive-tests": "error"
+    "mocha/no-exclusive-tests": "error",
+    "prefer-arrow-callback": "off",
+    "func-names": "off"
   }
 }

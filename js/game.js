@@ -67,7 +67,7 @@ export default class Game {
 
   loadComplete() {
     this.stageDirector = new StageDirector(this);
-    this.stageDirector.setup()
+    this.stageDirector.setup();
     this.stageDirector.play();
     this.app.ticker.start();
   }

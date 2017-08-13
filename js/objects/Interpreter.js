@@ -11,10 +11,10 @@ export default class Interpreter {
   }
 
   // returns linedata object {params, text, type}
-  parseLine(line) {
+  static parseLine(line) {
     const linedata = {};
     const colonindex = line.indexOf(':');
-    if (colonindex != -1) {
+    if (colonindex !== -1) {
       linedata.params = line.substring(0, colonindex).split(' ');
       linedata.text = line.substring(colonindex + 1, line.length).trim();
     } else {
@@ -41,8 +41,7 @@ export default class Interpreter {
       this.index += 1;
       return this.currentLine();
     }
-    console.log('no more lines to display');
-    return;
+    return null;
   }
 
   previousLine() {

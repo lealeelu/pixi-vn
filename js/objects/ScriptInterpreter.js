@@ -1,8 +1,7 @@
 
 import Interpreter from './Interpreter';
-import Simple from '../util/Simple';
 
-export default class ScriptInterpreter extends Interpreter{
+export default class ScriptInterpreter extends Interpreter {
   constructor() {
     super();
     this.jumps = new Map();
@@ -18,7 +17,7 @@ export default class ScriptInterpreter extends Interpreter{
 
     for (let i = 0; i < scriptlines.length; i += 1) {
       const line = scriptlines[i];
-      const linedata = this.parseLine(line);
+      const linedata = Interpreter.parseLine(line);
       if (linedata.params) {
         if (linedata.params.includes('label')) {
           // store labelname and script line index
@@ -49,11 +48,11 @@ export default class ScriptInterpreter extends Interpreter{
     const linedata = this.currentLine();
 
     switch (linedata.type) {
-        case 'jump':
-          this.jumpTo(linedata.text);
-          break;
-        default:
-          break;
+      case 'jump':
+        this.jumpTo(linedata.text);
+        break;
+      default:
+        break;
     }
 
     return linedata;
