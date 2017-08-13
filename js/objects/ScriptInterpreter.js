@@ -3,26 +3,21 @@ import Interpreter from './Interpreter';
 import Simple from '../util/Simple';
 
 export default class ScriptInterpreter extends Interpreter{
-  constructor(scripts) {
+  constructor() {
     super();
     this.jumps = new Map();
     this.menus = new Map();
-    let scriptpack = '';
-    scripts.forEach((script) => {
-      scriptpack = scriptpack + assetloader.resources[script].data;
-    });
-    this.parseScript(scriptpack);
   }
 
   parseScript(script) {
     let scriptlines = script.split('\n');
     // easy way to remove blank and commented out lines.
-    scriptlines = this.scriptlines.filter(line => line && !line.startsWith('--'));
+    scriptlines = scriptlines.filter(line => line && !line.startsWith('--'));
     let menuIndex = -1;
     let menuData = null;
 
     for (let i = 0; i < scriptlines.length; i += 1) {
-      const line = this.scriptlines[i];
+      const line = scriptlines[i];
       const linedata = this.parseLine(line);
       if (linedata.params) {
         if (linedata.params.includes('label')) {
@@ -55,7 +50,7 @@ export default class ScriptInterpreter extends Interpreter{
 
     switch (linedata.type) {
         case 'jump':
-          this.jumpTo(nextline.text);
+          this.jumpTo(linedata.text);
           break;
         default:
           break;

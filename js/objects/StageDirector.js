@@ -47,9 +47,14 @@ export default class StageDirector {
       this.positions.set('left', { x: gamewidth / 4, y: gameheight });
       this.positions.set('offstage_left', { x: -gamewidth / 4, y: gameheight });
 
-      this.interpreter = new ScriptInterpreter(
-        this.game.config.scripts,
-        this.game.assetloader);
+
+      this.interpreter = new ScriptInterpreter();
+      let scriptpack = '';
+      this.game.config.scripts.forEach((script) => {
+        scriptpack = scriptpack + this.game.assetloader.resources[script].data;
+      });
+      this.interpreter.parseScript(scriptpack);
+
 
       this.onMouseDownEvent = this.onMouseDown.bind(this);
       instance = this;
@@ -120,14 +125,15 @@ export default class StageDirector {
   }
 
   runMenu() {
-    const menuData = this.ScriptInterpreter.getMenuData();
+
+    const menuData = this.interpreter.getMenuData();
     this.changeState(STATE.menu);
     this.menuController.execute(menuData);
   }
 
   runMenuOption(optionIndex) {
     this.changeState(STATE.play);
-    this.ScriptInterpreter.jumpToIndex(optionIndex);
+    this.interpreter.jumpToIndex(optionIndex);
   }
 
   runDialog(command) {
